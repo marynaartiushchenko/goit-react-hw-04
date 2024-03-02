@@ -1,26 +1,46 @@
 import {Form, Formik} from 'formik'
-import toast, { Toaster } from 'react-hot-toast';
+import { useRef } from 'react'
+import toast from 'react-hot-toast';
 
-export default function SearchBar({onSearch} ) {
+export default function SearchBar({ onSubmit }) {
+    const inputRef = useRef(null);
+
+   const handleSubmit = async (values, { resetForm, setSubmitting }) => {
+        const query = values.query.trim();
+        if (!query) {
+            toast.error('Please enter a search query!');
+            return;
+        }
+        
+        try {
+            await onSubmit(query);
+            resetForm();
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     return (
-        <Formik initialValues={{ query: "" }}
-            onSubmit={(values, actions) => {
-            onSearch(values.query);
-            actions.resetForm();
-        }}>
-            <Form>
-                <header>
-                    <form>
+        <Formik
+            initialValues={{ query: '' }}
+            onSubmit={handleSubmit}
+        >
+            {({ isSubmitting }) => (
+                <Form>
+                    <header>
                         <input
                             type="text"
-                            autocomplete="off"
-                            autofocus
+                            name="query"
+                            autoComplete="off"
+                            autoFocus
                             placeholder="Search images and photos"
+                            ref={inputRef}
                         />
-                        <button type="submit">Search</button>
-                    </form>
-                </header>
-            </Form>
+                        <button type="submit" disabled={isSubmitting}>Search</button>
+                        {isSubmitting && <span>Searching...</span>}
+                    </header>
+                </Form>
+            )}
         </Formik>
     );
 }
