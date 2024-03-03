@@ -1,5 +1,5 @@
-import {Form, Formik} from 'formik'
-import { useRef } from 'react'
+import { Form, Formik } from 'formik';
+import { useRef } from 'react';
 import toast from 'react-hot-toast';
 
 export default function SearchBar({ onSubmit }) {

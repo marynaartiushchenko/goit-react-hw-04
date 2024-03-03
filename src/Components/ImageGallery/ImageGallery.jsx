@@ -1,5 +1,7 @@
+import ImageCard from "../ImageCard/ImageCard";
+
 export default function ImageGallery({ items }) {
-    return (
+    return (    
         <ul>
             {items.map((item) => (
                 <li key={item.objectId}>
@@ -8,6 +10,6 @@ export default function ImageGallery({ items }) {
                     </div>
                 </li>
             ))}
-        </ul>
+        </ul>           
     );
 }
