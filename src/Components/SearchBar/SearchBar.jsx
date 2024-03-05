@@ -1,46 +1,46 @@
-import { Form, Formik } from 'formik';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
 export default function SearchBar({ onSubmit }) {
+    const [query, setQuery] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const inputRef = useRef(null);
 
-   const handleSubmit = async (values, { resetForm, setSubmitting }) => {
-        const query = values.query.trim();
-        if (!query) {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const trimmedQuery = query.trim();
+        if (!trimmedQuery) {
             toast.error('Please enter a search query!');
             return;
         }
         
+        setIsSubmitting(true);
         try {
-            await onSubmit(query);
-            resetForm();
+            await onSubmit(trimmedQuery);
+            setQuery('');
+        } catch (error) {
+            toast.error('An error occurred while fetching images.');
         } finally {
-            setSubmitting(false);
+            setIsSubmitting(false);
         }
     };
 
     return (
-        <Formik
-            initialValues={{ query: '' }}
-            onSubmit={handleSubmit}
-        >
-            {({ isSubmitting }) => (
-                <Form>
-                    <header>
-                        <input
-                            type="text"
-                            name="query"
-                            autoComplete="off"
-                            autoFocus
-                            placeholder="Search images and photos"
-                            ref={inputRef}
-                        />
-                        <button type="submit" disabled={isSubmitting}>Search</button>
-                        {isSubmitting && <span>Searching...</span>}
-                    </header>
-                </Form>
-            )}
-        </Formik>
+        <header>
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    name="query"
+                    autoComplete="off"
+                    autoFocus
+                    placeholder="Search images and photos"
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    ref={inputRef}
+                />
+                <button type="submit" disabled={isSubmitting}>Search</button>
+                {isSubmitting && <span>Searching...</span>}
+            </form>
+        </header>
     );
 }

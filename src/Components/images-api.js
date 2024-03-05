@@ -1,6 +1,8 @@
 import axios from "axios";
 import toast from 'react-hot-toast';
 
+axios.defaults.baseURL = 'https://api.unsplash.com/'
+
 export const fetchImages = async (searchQuery) => {
     try {
         const response = await axios.get("/search/photos", {
@@ -12,8 +14,9 @@ export const fetchImages = async (searchQuery) => {
                 'Accept-Version': 'v1'
             },
         });
-        return response.data.hits;
+        return response.data.data;
     } catch (error) {
         toast.error('An error occurred while fetching images.');
+        throw error;
     }
 };
