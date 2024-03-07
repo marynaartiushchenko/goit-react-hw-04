@@ -5,13 +5,15 @@ import { fetchImages } from "./images-api";
 import { Toaster } from 'react-hot-toast';
 import Loader from "./Loader/Loader";
 import LoadMoreBtn from "./LoadMoreBtn/LoadMoreBtn";
-
+import ImageModal from "./ImageModal/ImageModal";
 
 export default function App() {
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
+   const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedImageUrl, setSelectedImageUrl] = useState('');
   
   const handleSearch = async (newQuery) => {
     try {
@@ -29,6 +31,16 @@ export default function App() {
     setPage(page + 1);
   };
   
+const handleImageClick = (imageUrl) => {
+        setSelectedImageUrl(imageUrl);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setSelectedImageUrl('');
+        setIsModalOpen(false);
+    };
+
   return (
     <div >
       <SearchBar onSubmit={handleSearch} />
@@ -36,7 +48,12 @@ export default function App() {
       {error && <div>{error}</div>}
       <Toaster />
       {images.length > 0 && <ImageGallery images={images} />}
-      {images.length > 0 && <LoadMoreBtn onLoadMore ={handleLoadMore} /> }
+      {images.length > 0 && <LoadMoreBtn onLoadMore={handleLoadMore} />}
+      <ImageModal
+                isOpen={isModalOpen}
+                onRequestClose={closeModal}
+                imageUrl={selectedImageUrl}
+            />
     </div>
   );
 }
