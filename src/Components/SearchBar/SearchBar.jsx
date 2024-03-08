@@ -25,6 +25,7 @@ export default function SearchBar({ onSubmit }) {
         }
     };
 
+    
     return (
         <header>
             <form onSubmit={handleSubmit}>
