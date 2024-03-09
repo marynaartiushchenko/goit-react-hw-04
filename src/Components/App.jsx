@@ -62,10 +62,15 @@ const handleLoadMore = () => {
     setPage(prevPage => prevPage + 1); // Increment page
 };
 
-const handleImageClick = (imageUrl) => {
-    setSelectedImageUrl(imageUrl);
+  
+  const handleImageClick = (image) => {
+    setSelectedImageUrl(image);
     setIsModalOpen(true);
 };
+// const handleImageClick = (imageUrl) => {
+//     setSelectedImageUrl(imageUrl);
+//     setIsModalOpen(true);
+// };
 
     const closeModal = () => {
     setSelectedImageUrl('');

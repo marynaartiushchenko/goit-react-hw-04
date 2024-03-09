@@ -2,7 +2,8 @@ import Modal from "react-modal";
 
  Modal.setAppElement("#root");
 
-const ImageModal = ({ isOpen, onRequestClose, imageUrl }) => {
+const ImageModal = ({ isOpen, onRequestClose, image }) => {
+    console.log(image); 
     return (
         <Modal
             isOpen={isOpen}
@@ -11,7 +12,7 @@ const ImageModal = ({ isOpen, onRequestClose, imageUrl }) => {
             shouldCloseOnOverlayClick={true}
         >
             <button onClick={onRequestClose}>Close</button>
-            <img src={imageUrl} alt="Large Image" />
+            <img src={image.urls.regular} alt={image.description} /> 
         </Modal>
     );
 };
