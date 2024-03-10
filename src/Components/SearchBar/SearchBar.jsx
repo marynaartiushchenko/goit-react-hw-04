@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react';
 import toast from 'react-hot-toast';
+import css from './SearchBar.module.css'
+import { RiSearchEyeLine } from "react-icons/ri";
 
 export default function SearchBar({ onSubmit }) {
     const [query, setQuery] = useState('');
@@ -27,9 +29,12 @@ export default function SearchBar({ onSubmit }) {
 
     
     return (
-        <header>
-            <form onSubmit={handleSubmit}>
-                <input
+        <header className={css.header}>          
+            <form className={css.form} onSubmit={handleSubmit}>
+                <button className={css.searchButton} type="submit" disabled={isSubmitting}>
+                     <RiSearchEyeLine size="18px"/>
+                </button>               
+                <input className={css.input}
                     type="text"
                     name="query"
                     autoComplete="off"
@@ -39,9 +44,9 @@ export default function SearchBar({ onSubmit }) {
                     onChange={(event) => setQuery(event.target.value)}
                     ref={inputRef}
                 />
-                <button type="submit" disabled={isSubmitting}>Search</button>
-                {isSubmitting && <span>Searching...</span>}
-            </form>
+                    {isSubmitting && <span>Searching...</span>}
+                </form>
+               
         </header>
     );
 }
