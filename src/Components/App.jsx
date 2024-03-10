@@ -14,8 +14,7 @@ export default function App() {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedImageUrl, setSelectedImageUrl] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
   const [searchTerm, setSearchTerm] = useState('')
   
  const accessKey = 'PAkOFV46TDL2tAhwdIk4TDzaP7RT3Nhx6tyEaOvJQ54'
@@ -54,27 +53,20 @@ export default function App() {
         setError('Error fetching images. Please try again.');
     } finally {
         setIsLoading(false);
-    }
-  
+    }  
 };
 
 const handleLoadMore = () => {
     setPage(prevPage => prevPage + 1); // Increment page
-};
-
-  
+}; 
+ 
   const handleImageClick = (image) => {
-    setSelectedImageUrl(image);
-    setIsModalOpen(true);
-};
-// const handleImageClick = (imageUrl) => {
-//     setSelectedImageUrl(imageUrl);
-//     setIsModalOpen(true);
-// };
+    setSelectedImage(image);
+    setIsModalOpen(true); 
+  };
 
-    const closeModal = () => {
-    setSelectedImageUrl('');
-    setIsModalOpen(false);
+ const closeModal = () => {
+    setIsModalOpen(false); 
   };
 
   return (
@@ -85,22 +77,7 @@ const handleLoadMore = () => {
       <Toaster />
       <ImageGallery images={images} onImageClick={handleImageClick} />
       {images.length > 0 && <LoadMoreBtn onLoadMore={handleLoadMore} />}
-      <ImageModal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        imageUrl={selectedImageUrl}
-      />
+      <ImageModal isOpen={isModalOpen} onRequestClose={closeModal} image={selectedImage} />
     </div>
   );
 }
-
-
-
- // useEffect(() => {
-  //   async function getImages() {
-  //     const data = await fetchImages ()
-  //     setImages(data);
-  //   }
-
-  //   getImages();
-  // });
